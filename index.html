@@ -597,8 +597,10 @@
       statusDiv.innerHTML = "🧠 AI sedang membaca dan menginput data kurs secara presisi...";
       
       // =========================================================================
-      // ⚠️ GANTI TEMPLATE DI BAWAH INI DENGAN URL ASLI DARI VERCEL-MU!
-      // Contoh: const backendUrl = "https://kurs-bankjatim-three.vercel.app/api/scan";
+      // ⚠️ CATATAN PENTING:
+      // Pastikan URL di bawah ini mengarah ke path endpoint API yang lengkap.
+      // Jika kamu menggunakan serverless function Vercel, biasanya menggunakan '/api/scan'.
+      // Contoh: "https://kurs-bankjatim.vercel.app/api/scan"
       // =========================================================================
       const backendUrl = "https://kurs-bankjatim.vercel.app/";
 
@@ -612,9 +614,29 @@
           })
         });
 
+        const contentType = response.headers.get("content-type");
+
+        // Validasi jika respons HTTP tidak sukses (404, 500, dll)
         if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.error || "Gagal memproses gambar dari server perantara.");
+          let errorMessage = `Server Error (${response.status})`;
+          
+          if (contentType && contentType.includes("application/json")) {
+            const errData = await response.json();
+            errorMessage = errData.error || errorMessage;
+          } else {
+            const htmlText = await response.text();
+            if (htmlText.includes("The page")) {
+              errorMessage = "Path URL API tidak ditemukan (404). Silakan periksa apakah kamu kurang menambahkan '/api/scan' di backendUrl.";
+            } else {
+              errorMessage = "Server mengembalikan format HTML/Teks biasa alih-alih data kurs.";
+            }
+          }
+          throw new Error(errorMessage);
+        }
+
+        // Validasi jika statusnya OK (200) tetapi isinya bukan JSON yang valid
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Respon sukses didapat, tetapi format data bukan JSON yang valid.");
         }
 
         const ratesData = await response.json();
