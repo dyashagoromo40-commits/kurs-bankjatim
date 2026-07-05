@@ -82,34 +82,6 @@
       margin-bottom: 15px;
     }
 
-    .key-input-container {
-      margin-bottom: 12px;
-      text-align: left;
-    }
-
-    .key-input-container label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #14532d;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .ai-key-field {
-      width: 100%;
-      padding: 6px 10px;
-      font-size: 12px;
-      border: 1px solid #bbf7d0;
-      border-radius: 6px;
-      background: #ffffff;
-      font-family: monospace;
-    }
-
-    .ai-key-field:focus {
-      outline: none;
-      border-color: #16a34a;
-    }
-
     .scan-btn-label {
       display: inline-block;
       background: #16a34a;
@@ -414,12 +386,8 @@
     </div>
 
     <div class="scanner-box">
-      <div class="key-input-container">
-        <label for="gemini-key">🔑 Gemini AI API Key (Saved Locally)</label>
-        <input type="password" id="gemini-key" class="ai-key-field" placeholder="Paste AIZAsy... key di sini" onchange="saveApiKey()">
-      </div>
       <p style="font-size: 13px; font-weight: 600; color: #166534;">Auto Scan Kurs Valas (AI Powered)</p>
-      <p style="font-size: 11px; color: #166534; margin-top: 2px;">Membaca gambar tabel indikasi dengan akurasi 100%</p>
+      <p style="font-size: 11px; color: #166534; margin-top: 2px;">Membaca gambar tabel indikasi lewat Server Backend Aman</p>
       
       <label class="scan-btn-label">
         Ambil / Pilih Gambar
@@ -531,7 +499,7 @@
 
     if (ribuan) {
       let separator = sisa ? '.' : '';
-      rupiah += separator + ribuan.join('.');
+       rupiah += separator + ribuan.join('.');
     }
     return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
   }
@@ -552,10 +520,6 @@
   }
 
   function initApp() {
-    if (localStorage.getItem("bj_gemini_key")) {
-      document.getElementById("gemini-key").value = localStorage.getItem("bj_gemini_key");
-    }
-
     const inputsBnContainer = document.getElementById("inputs-bn");
     const inputsTtContainer = document.getElementById("inputs-tt");
     const displayBnContainer = document.getElementById("display-bn");
@@ -596,11 +560,6 @@
     handleLiveUpdate();
   }
 
-  function saveApiKey() {
-    const key = document.getElementById("gemini-key").value.trim();
-    localStorage.setItem("bj_gemini_key", key);
-  }
-
   function handleLiveUpdate() {
     currencies.forEach(cur => {
       const bnB = document.getElementById(`in_${cur}_bn_b`).value;
@@ -625,77 +584,50 @@
   function processAndScan(input) {
     if (!input.files || !input.files[0]) return;
     const file = input.files[0];
-    const apiKey = document.getElementById("gemini-key").value.trim();
     const statusDiv = document.getElementById("scan-status");
-
-    if (!apiKey) {
-      statusDiv.innerHTML = "❌ Masukkan Gemini API Key terlebih dahulu!";
-      statusDiv.style.color = "#dc2626";
-      return;
-    }
 
     statusDiv.innerHTML = "⏳ Menyiapkan dokumen gambar...";
     statusDiv.style.color = "#15803d";
 
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
       const base64Data = e.target.result.split(',')[1];
       const mimeType = file.type;
       
       statusDiv.innerHTML = "🧠 AI sedang membaca dan menginput data kurs secara presisi...";
-      callGeminiVision(base64Data, mimeType, apiKey);
+      
+      // =========================================================================
+      // ⚠️ GANTI TEMPLATE DI BAWAH INI DENGAN URL ASLI DARI VERCEL-MU!
+      // Contoh: const backendUrl = "https://kurs-bankjatim-three.vercel.app/api/scan";
+      // =========================================================================
+      const backendUrl = "MASUKKAN_URL_VERCEL_KAMU_DI_SINI/api/scan";
+
+      try {
+        const response = await fetch(backendUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            imageBase64: base64Data,
+            mimeType: mimeType
+          })
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || "Gagal memproses gambar dari server perantara.");
+        }
+
+        const ratesData = await response.json();
+        applyAiRates(ratesData);
+        statusDiv.innerHTML = "✅ Selesai! AI Berhasil memproses data 100% tanpa kesalahan.";
+        statusDiv.style.color = "#16a34a";
+      } catch (error) {
+        console.error(error);
+        statusDiv.innerHTML = `❌ Gagal: ${error.message}`;
+        statusDiv.style.color = "#dc2626";
+      }
     };
     reader.readAsDataURL(file);
-  }
-
-  async function callGeminiVision(base64Data, mimeType, apiKey) {
-    const statusDiv = document.getElementById("scan-status");
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    
-    const promptText = `Extract currency exchange rates (Kurs Valas) from this image. Look for buying (Beli) and selling (Jual) rates for Bank Notes (BN) and Telegraphic Transfer (TT / TRF). 
-Target currencies: USD, AUD, GBP, SGD, JPY, HKD, EUR, CNY, MYR.
-Return a STRICT JSON object without any markdown wrapping (NO backticks, NO \`\`\`json). The JSON must map exactly to this schema:
-{
-  "USD": {"bn_b": "digits", "bn_j": "digits", "tt_b": "digits", "tt_j": "digits"},
-  "AUD": {"bn_b": "", "bn_j": "", "tt_b": "", "tt_j": ""},
-  ...
-}
-Important: Extract ONLY numeric numbers as string values without separators like dots or commas (e.g., "15325" instead of "15.325" or "15,325"). If a particular rate or currency is missing in the image, provide an empty string "".`;
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: promptText },
-              { inlineData: { mimeType: mimeType, data: base64Data } }
-            ]
-          }],
-          generationConfig: {
-            responseMimeType: "application/json"
-          }
-        })
-      });
-
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(errText);
-      }
-
-      const resData = await response.json();
-      const jsonText = resData.candidates[0].content.parts[0].text;
-      const ratesData = JSON.parse(jsonText);
-      
-      applyAiRates(ratesData);
-      statusDiv.innerHTML = "✅ Selesai! AI Berhasil memproses data 100% tanpa kesalahan.";
-      statusDiv.style.color = "#16a34a";
-    } catch (error) {
-      console.error(error);
-      statusDiv.innerHTML = `❌ Gagal: ${error.message || 'Periksa kecocokan API Key Anda atau kualitas gambar.'}`;
-      statusDiv.style.color = "#dc2626";
-    }
   }
 
   function applyAiRates(data) {
@@ -710,7 +642,6 @@ Important: Extract ONLY numeric numbers as string values without separators like
     handleLiveUpdate();
   }
 
-  // DIATUR ULANG: Menambahkan try-catch dan mengubah allowTaint: false demi keamanan CORS ekspor canvas
   function downloadPoster() {
     const posterNode = document.querySelector("#poster");
     handleLiveUpdate();
@@ -729,13 +660,7 @@ Important: Extract ONLY numeric numbers as string values without separators like
           triggerLink.click();
         } catch (securityError) {
           console.error("Gagal mengekspor gambar karena batasan CORS/Protokol:", securityError);
-          alert(
-            "Gagal mengunduh gambar secara instan!\n\n" +
-            "Penyebab: Browser memblokir pengunduhan otomatis karena file HTML dibuka langsung lewat klik ganda (protokol file://).\n\n" +
-            "Solusi Mudah:\n" +
-            "1. Jalankan HTML ini lewat web server lokal (seperti VS Code Live Server, XAMPP, LocalWP, atau InstaWP).\n" +
-            "2. Alternatif cepat: Silakan KLIK KANAN langsung pada area poster preview di kanan layar, lalu pilih 'Save Image As...' (Simpan Gambar)."
-          );
+          alert("Gagal mengunduh gambar otomatis. Coba akses via web server resmi.");
         }
       }).catch(err => {
         console.error("html2canvas mendeteksi error:", err);
