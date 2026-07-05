@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Special Rate Bank Jatim v4.0 - 100% Smart AI Vision</title>
+  
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bj-red: #e31b23;
+      --bj-red-glow: rgba(227, 27, 35, 0.15);
+      --bg-dark: #0f172a;
+      --panel-bg: #ffffff;
+      --text-main: #1e293b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8fafc;
+      color: var(--text-main);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 25px;
+      width: 100%;
+      max-width: 1750px;
+    }
+
+    /* SIDEBAR PANEL INPUT */
+    .input-panel {
+      background: var(--panel-bg);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+      max-height: 95vh;
+      overflow-y: auto;
+    }
+
+    .panel-header {
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .panel-header h2 {
+      font-size: 20px;
+      color: var(--bg-dark);
+      font-weight: 700;
+    }
+
+    .panel-header p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* BOX UTAMA SCANNER DENGAN INTELLIGENT AI */
+    .scanner-box {
+      background: #f0fdf4;
+      border: 2px dashed #16a34a;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .key-input-container {
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .key-input-container label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #14532d;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .ai-key-field {
+      width: 100%;
+      padding: 6px 10px;
+      font-size: 12px;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      background: #ffffff;
+      font-family: monospace;
+    }
+
+    .ai-key-field:focus {
+      outline: none;
+      border-color: #16a34a;
+    }
+
+    .scan-btn-label {
+      display: inline-block;
+      background: #16a34a;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.2s;
+      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.2);
+    }
+
+    .scan-btn-label:hover {
+      background: #15803d;
+    }
+
+    #scan-status {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+      color: #15803d;
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--bj-red);
+      margin: 15px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .table-input {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 5px;
+    }
+
+    .table-input th {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #64748b;
+      padding: 4px;
+      text-align: left;
+    }
+
+    .table-input td {
+      padding: 4px 2px;
+    }
+
+    .currency-label {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--bg-dark);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--bj-red);
+      box-shadow: 0 0 0 3px var(--bj-red-glow);
+    }
+
+    .btn-download {
+      display: block;
+      width: 100%;
+      background: var(--bg-dark);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #1e293b;
+    }
+
+    /* POSTER DISPLAY PREVIEW */
+    .preview-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .poster {
+      width: 1200px;
+      height: 675px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 45px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    }
+
+    .poster-bg-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+      background-size: 30px 30px;
+      z-index: 1;
+    }
+
+    .glow-top-right {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: var(--bj-red);
+      filter: blur(150px);
+      opacity: 0.12;
+      top: -150px;
+      right: -150px;
+      z-index: 1;
+    }
+
+    .glow-bottom-left {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: var(--bj-red);
+      filter: blur(130px);
+      opacity: 0.08;
+      bottom: -150px;
+      left: -150px;
+      z-index: 1;
+    }
+
+    .poster-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .poster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      height: 52px;
+    }
+
+    .date-badge {
+      background: var(--bg-dark);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .poster-title-area {
+      text-align: center;
+      margin-top: -10px;
+    }
+
+    .main-title {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #0f172a;
+    }
+
+    .main-title span {
+      color: var(--bj-red);
+    }
+
+    .sub-title {
+      font-size: 15px;
+      color: #475569;
+      font-weight: 500;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    .rates-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      margin: 20px 0;
+    }
+
+    .rate-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .card-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--bj-red);
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      border-left: 4px solid var(--bj-red);
+      padding-left: 10px;
+    }
+
+    .display-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .display-table th {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f1f5f9;
+      text-transform: uppercase;
+    }
+
+    .display-table td {
+      padding: 8px 0;
+      font-size: 16px;
+      font-weight: 600;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+
+    .row-currency {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--bg-dark);
+    }
+
+    .flag-icon {
+      width: 24px;
+      height: 16px;
+      object-fit: cover;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+
+    .poster-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 12px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .footer-note {
+      font-weight: 500;
+      max-width: 750px;
+      line-height: 1.4;
+    }
+
+    .timestamp {
+      font-weight: 600;
+      color: var(--bg-dark);
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <div class="input-panel">
+    <div class="panel-header">
+      <h2>Input Kurs Valas</h2>
+      <p>Bank Jatim Cabang Dr. Soetomo</p>
+    </div>
+
+    <div class="scanner-box">
+      <div class="key-input-container">
+        <label for="gemini-key">🔑 Gemini AI API Key (Saved Locally)</label>
+        <input type="password" id="gemini-key" class="ai-key-field" placeholder="Paste AIZAsy... key di sini" onchange="saveApiKey()">
+      </div>
+      <p style="font-size: 13px; font-weight: 600; color: #166534;">Auto Scan Kurs Valas (AI Powered)</p>
+      <p style="font-size: 11px; color: #166534; margin-top: 2px;">Membaca gambar tabel indikasi dengan akurasi 100%</p>
+      
+      <label class="scan-btn-label">
+        Ambil / Pilih Gambar
+        <input type="file" accept="image/*" onchange="processAndScan(this)" style="display:none;">
+      </label>
+      <div id="scan-status">Status: Ready</div>
+    </div>
+
+    <div class="section-title">Bank Notes</div>
+    <table class="table-input">
+      <thead>
+        <tr><th>Mata Uang</th><th>Beli</th><th>Jual</th></tr>
+      </thead>
+      <tbody id="inputs-bn"></tbody>
+    </table>
+
+    <div class="section-title">Telegraphic Transfer (TT)</div>
+    <table class="table-input">
+      <thead>
+        <tr><th>Mata Uang</th><th>Beli</th><th>Jual</th></tr>
+      </thead>
+      <tbody id="inputs-tt"></tbody>
+    </table>
+
+    <button class="btn-download" onclick="downloadPoster()">Unduh Gambar PNG</button>
+  </div>
+
+  <div class="preview-area">
+    <div id="poster" class="poster">
+      <div class="poster-bg-grid"></div>
+      <div class="glow-top-right"></div>
+      <div class="glow-bottom-left"></div>
+
+      <div class="poster-content">
+        <div class="poster-header">
+          <img class="brand-logo" src="Bank Jatim Logo (PNG-1080p) - FileVector69.png" alt="Logo Bank Jatim">
+          <div id="live-date" class="date-badge">-</div>
+        </div>
+
+        <div class="poster-title-area">
+          <div class="main-title">INDIKASI <span>SPECIAL RATE</span></div>
+          <div class="sub-title">PT BANK PEMBANGUNAN DAERAH JAWA TIMUR, TBK</div>
+        </div>
+
+        <div class="rates-container">
+          <div class="rate-card">
+            <div class="card-heading">BANK NOTES</div>
+            <table class="display-table">
+              <thead>
+                <tr><th align="left">Mata Uang</th><th class="text-center">Kurs Beli</th><th class="text-right">Kurs Jual</th></tr>
+              </thead>
+              <tbody id="display-bn"></tbody>
+            </table>
+          </div>
+
+          <div class="rate-card">
+            <div class="card-heading">TELEGRAPHIC TRANSFER</div>
+            <table class="display-table">
+              <thead>
+                <tr><th align="left">Mata Uang</th><th class="text-center">Kurs Beli</th><th class="text-right">Kurs Jual</th></tr>
+              </thead>
+              <tbody id="display-tt"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="poster-footer">
+          <div class="footer-note">
+            *Merupakan indikasi pada jam tersebut untuk transaksi &ge; IDR 25 juta (Bank Notes) atau &ge; USD 2.000 (Telegraphic Transfer). Kurs dapat berubah sewaktu-waktu sesuai kondisi pasar keuangan. Segera hubungi Cabang untuk mendapatkan kurs yang berlaku.
+          </div>
+          <div id="live-timestamp" class="timestamp">Update: -</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const flags = {
+    USD: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/us.svg",
+    AUD: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/au.svg",
+    GBP: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/gb.svg",
+    SGD: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/sg.svg",
+    JPY: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/jp.svg",
+    HKD: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/hk.svg",
+    EUR: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/eu.svg",
+    CNY: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/cn.svg",
+    MYR: "https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/flags/4x3/my.svg"
+  };
+
+  const currencies = ["USD", "AUD", "GBP", "SGD", "JPY", "HKD", "EUR", "CNY", "MYR"];
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById("live-date").innerText = now.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();
+    document.getElementById("live-timestamp").innerText = "Update: " + now.toLocaleTimeString("id-ID") + " WIB";
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  function formatRupiah(value) {
+    if (!value || value === "-") return "-";
+    let pureNumber = value.toString().replace(/[^,\d]/g, '');
+    let split = pureNumber.split(',');
+    let sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      let separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+    return split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+  }
+
+  function formatJPY(value) {
+    if (!value || value === "-") return "-";
+    let pureNumber = value.toString().replace(/[^\d]/g, '');
+    if (!pureNumber) return "-";
+    
+    if (pureNumber.length <= 2) {
+      return "0." + pureNumber.padStart(2, '0');
+    }
+    
+    let depan = pureNumber.slice(0, -2);
+    let belakang = pureNumber.slice(-2);
+    
+    return formatRupiah(depan) + "." + belakang;
+  }
+
+  function initApp() {
+    if (localStorage.getItem("bj_gemini_key")) {
+      document.getElementById("gemini-key").value = localStorage.getItem("bj_gemini_key");
+    }
+
+    const inputsBnContainer = document.getElementById("inputs-bn");
+    const inputsTtContainer = document.getElementById("inputs-tt");
+    const displayBnContainer = document.getElementById("display-bn");
+    const displayTtContainer = document.getElementById("display-tt");
+
+    currencies.forEach(cur => {
+      inputsBnContainer.innerHTML += `
+        <tr>
+          <td class="currency-label">${cur}</td>
+          <td><input type="text" id="in_${cur}_bn_b" class="input-field" value="" oninput="handleLiveUpdate()"></td>
+          <td><input type="text" id="in_${cur}_bn_j" class="input-field" value="" oninput="handleLiveUpdate()"></td>
+        </tr>
+      `;
+      inputsTtContainer.innerHTML += `
+        <tr>
+          <td class="currency-label">${cur}</td>
+          <td><input type="text" id="in_${cur}_tt_b" class="input-field" value="" oninput="handleLiveUpdate()"></td>
+          <td><input type="text" id="in_${cur}_tt_j" class="input-field" value="" oninput="handleLiveUpdate()"></td>
+        </tr>
+      `;
+
+      displayBnContainer.innerHTML += `
+        <tr id="row_bn_${cur}">
+          <td class="row-currency"><img class="flag-icon" src="${flags[cur]}" crossorigin="anonymous"> ${cur}</td>
+          <td class="text-center" id="out_${cur}_bn_b">-</td>
+          <td class="text-right" id="out_${cur}_bn_j">-</td>
+        </tr>
+      `;
+      displayTtContainer.innerHTML += `
+        <tr id="row_tt_${cur}">
+          <td class="row-currency"><img class="flag-icon" src="${flags[cur]}" crossorigin="anonymous"> ${cur}</td>
+          <td class="text-center" id="out_${cur}_tt_b">-</td>
+          <td class="text-right" id="out_${cur}_tt_j">-</td>
+        </tr>
+      `;
+    });
+
+    handleLiveUpdate();
+  }
+
+  function saveApiKey() {
+    const key = document.getElementById("gemini-key").value.trim();
+    localStorage.setItem("bj_gemini_key", key);
+  }
+
+  function handleLiveUpdate() {
+    currencies.forEach(cur => {
+      const bnB = document.getElementById(`in_${cur}_bn_b`).value;
+      const bnJ = document.getElementById(`in_${cur}_bn_j`).value;
+      const ttB = document.getElementById(`in_${cur}_tt_b`).value;
+      const ttJ = document.getElementById(`in_${cur}_tt_j`).value;
+
+      if (cur === "JPY") {
+        document.getElementById(`out_${cur}_bn_b`).innerText = formatJPY(bnB);
+        document.getElementById(`out_${cur}_bn_j`).innerText = formatJPY(bnJ);
+        document.getElementById(`out_${cur}_tt_b`).innerText = formatJPY(ttB);
+        document.getElementById(`out_${cur}_tt_j`).innerText = formatJPY(ttJ);
+      } else {
+        document.getElementById(`out_${cur}_bn_b`).innerText = formatRupiah(bnB);
+        document.getElementById(`out_${cur}_bn_j`).innerText = formatRupiah(bnJ);
+        document.getElementById(`out_${cur}_tt_b`).innerText = formatRupiah(ttB);
+        document.getElementById(`out_${cur}_tt_j`).innerText = formatRupiah(ttJ);
+      }
+    });
+  }
+
+  function processAndScan(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const apiKey = document.getElementById("gemini-key").value.trim();
+    const statusDiv = document.getElementById("scan-status");
+
+    if (!apiKey) {
+      statusDiv.innerHTML = "❌ Masukkan Gemini API Key terlebih dahulu!";
+      statusDiv.style.color = "#dc2626";
+      return;
+    }
+
+    statusDiv.innerHTML = "⏳ Menyiapkan dokumen gambar...";
+    statusDiv.style.color = "#15803d";
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64Data = e.target.result.split(',')[1];
+      const mimeType = file.type;
+      
+      statusDiv.innerHTML = "🧠 AI sedang membaca dan menginput data kurs secara presisi...";
+      callGeminiVision(base64Data, mimeType, apiKey);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function callGeminiVision(base64Data, mimeType, apiKey) {
+    const statusDiv = document.getElementById("scan-status");
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    
+    const promptText = `Extract currency exchange rates (Kurs Valas) from this image. Look for buying (Beli) and selling (Jual) rates for Bank Notes (BN) and Telegraphic Transfer (TT / TRF). 
+Target currencies: USD, AUD, GBP, SGD, JPY, HKD, EUR, CNY, MYR.
+Return a STRICT JSON object without any markdown wrapping (NO backticks, NO \`\`\`json). The JSON must map exactly to this schema:
+{
+  "USD": {"bn_b": "digits", "bn_j": "digits", "tt_b": "digits", "tt_j": "digits"},
+  "AUD": {"bn_b": "", "bn_j": "", "tt_b": "", "tt_j": ""},
+  ...
+}
+Important: Extract ONLY numeric numbers as string values without separators like dots or commas (e.g., "15325" instead of "15.325" or "15,325"). If a particular rate or currency is missing in the image, provide an empty string "".`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: promptText },
+              { inlineData: { mimeType: mimeType, data: base64Data } }
+            ]
+          }],
+          generationConfig: {
+            responseMimeType: "application/json"
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(errText);
+      }
+
+      const resData = await response.json();
+      const jsonText = resData.candidates[0].content.parts[0].text;
+      const ratesData = JSON.parse(jsonText);
+      
+      applyAiRates(ratesData);
+      statusDiv.innerHTML = "✅ Selesai! AI Berhasil memproses data 100% tanpa kesalahan.";
+      statusDiv.style.color = "#16a34a";
+    } catch (error) {
+      console.error(error);
+      statusDiv.innerHTML = `❌ Gagal: ${error.message || 'Periksa kecocokan API Key Anda atau kualitas gambar.'}`;
+      statusDiv.style.color = "#dc2626";
+    }
+  }
+
+  function applyAiRates(data) {
+    currencies.forEach(cur => {
+      if (data[cur]) {
+        if (data[cur].bn_b !== undefined) document.getElementById(`in_${cur}_bn_b`).value = data[cur].bn_b;
+        if (data[cur].bn_j !== undefined) document.getElementById(`in_${cur}_bn_j`).value = data[cur].bn_j;
+        if (data[cur].tt_b !== undefined) document.getElementById(`in_${cur}_tt_b`).value = data[cur].tt_b;
+        if (data[cur].tt_j !== undefined) document.getElementById(`in_${cur}_tt_j`).value = data[cur].tt_j;
+      }
+    });
+    handleLiveUpdate();
+  }
+
+  // DIATUR ULANG: Menambahkan try-catch dan mengubah allowTaint: false demi keamanan CORS ekspor canvas
+  function downloadPoster() {
+    const posterNode = document.querySelector("#poster");
+    handleLiveUpdate();
+
+    setTimeout(() => {
+      html2canvas(posterNode, {
+        scale: 2,
+        useCORS: true, 
+        allowTaint: false,
+        backgroundColor: "#ffffff"
+      }).then(canvas => {
+        try {
+          let triggerLink = document.createElement("a");
+          triggerLink.download = "Indikasi_Special_Rate_Bank_Jatim.png";
+          triggerLink.href = canvas.toDataURL("image/png");
+          triggerLink.click();
+        } catch (securityError) {
+          console.error("Gagal mengekspor gambar karena batasan CORS/Protokol:", securityError);
+          alert(
+            "Gagal mengunduh gambar secara instan!\n\n" +
+            "Penyebab: Browser memblokir pengunduhan otomatis karena file HTML dibuka langsung lewat klik ganda (protokol file://).\n\n" +
+            "Solusi Mudah:\n" +
+            "1. Jalankan HTML ini lewat web server lokal (seperti VS Code Live Server, XAMPP, LocalWP, atau InstaWP).\n" +
+            "2. Alternatif cepat: Silakan KLIK KANAN langsung pada area poster preview di kanan layar, lalu pilih 'Save Image As...' (Simpan Gambar)."
+          );
+        }
+      }).catch(err => {
+        console.error("html2canvas mendeteksi error:", err);
+        alert("Terjadi kesalahan sistem saat memproses konversi gambar poster.");
+      });
+    }, 300);
+  }
+
+  window.onload = initApp;
+</script>
+
+</body>
+</html>
